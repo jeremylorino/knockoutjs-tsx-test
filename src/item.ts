@@ -18,6 +18,29 @@ function mapObject<T, U>(
     }, {} as Dictionary<U>);
 }
 
+function S4() {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+}
+
+function guid() {
+    return `${S4()}${S4()}-${S4()}-${S4()}-${S4()}-${S4()}${S4()}${S4()}`;
+}
+
+function id() {
+    const d = new Date();
+    return (
+        guid() +
+        "-" +
+        d.getUTCFullYear() +
+        (d.getUTCMonth() + 1) +
+        d.getUTCDate() +
+        "-" +
+        d.getUTCHours() +
+        d.getUTCMinutes() +
+        d.getUTCSeconds()
+    );
+}
+
 export interface ItemMetadata {
     identifierName?: string;
     fields: FieldMetadataObject[];
@@ -36,11 +59,24 @@ export default class Item {
             ...(metadata ?? {}),
         };
 
+        if (!this._basis.Id) {
+            this._basis.Id = id();
+            this._metadata.fields.push({
+                collectionName: "",
+                label: "Id",
+                name: "Id",
+                required: true,
+                type: "string",
+            });
+        }
+
         this._fields = Object.entries(this._basis).map(([k, v]) => {
             const fieldMetadata = this._metadata.fields.find(m => m.name === k) ?? {
                 name: k,
             };
-            return new Field(v, fieldMetadata);
+            const field = new Field(v, fieldMetadata);
+            field.value.subscribe(v => (this._basis[field.name()!] = v));
+            return field;
         });
     }
 
