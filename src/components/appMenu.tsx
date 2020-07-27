@@ -4,7 +4,7 @@ import { Dictionary } from "../types";
 import { AppItem } from "./AppMenuViewModel";
 import { Renderable } from "../Renderable";
 
-export default class SWAppMenu extends Renderable<{ items: ko.ObservableArray<AppItem> }> {
+export default class AppMenu extends Renderable<{ items: ko.ObservableArray<AppItem> }> {
     public enabledApps: ko.PureComputed<AppItem[]>;
     public platformBaseUrl: string = "http://localhost";
 
@@ -26,7 +26,7 @@ export default class SWAppMenu extends Renderable<{ items: ko.ObservableArray<Ap
         const handleOnChange = this.handleOnChange.bind(this);
         return (
             <div>
-                <div className="navbar-collapse collapse stackwave-app-menu">
+                <div className="navbar-collapse collapse app-menu">
                     <ul className="nav navbar-nav">
                         <li className="dropdown">
                             <a

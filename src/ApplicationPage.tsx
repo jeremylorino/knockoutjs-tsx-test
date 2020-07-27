@@ -1,7 +1,7 @@
 import * as ko from "knockout";
 import jsxFactory from "./jsxFactory";
 import { Renderable } from "./Renderable";
-import SWAppMenu from "./components/appMenu";
+import AppMenu from "./components/appMenu";
 import { AppItem } from "./components/AppMenuViewModel";
 
 export default class ApplicationPage extends Renderable {
@@ -45,7 +45,7 @@ export default class ApplicationPage extends Renderable {
             <div>
                 <h1>{this.text()}</h1>
                 <button onclick={this.handleButtonClick}>click</button>
-                <SWAppMenu items={this.items}></SWAppMenu>
+                <AppMenu items={this.items}></AppMenu>
             </div>
         );
     }
